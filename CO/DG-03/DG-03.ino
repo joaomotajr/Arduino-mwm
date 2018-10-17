@@ -8,6 +8,8 @@ const char* idGasA0 = "121";
 const char* nameGasA0 = "DG-03";
 int minimo = 0; 
 int maximo = 1000;
+int alarm1 = 39;
+int alarm2 = 60;
 const char* gas = "CO";
 const char* unidade = "PPM";
 
@@ -39,6 +41,8 @@ void loop() {
       String(idGasA0) + ";" +
       String(minimo) + ";" + 
       String(maximo) + ";" +
+      String(alarm1) + ";" +
+      String(alarm2) + ";" +
       String(co * 100000) + ";" + 
       String(millis())
    ); 
