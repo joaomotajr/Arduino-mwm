@@ -8,10 +8,10 @@ const char* idGasA0 = "120";
 const char* nameGasA0 = "DG-01";
 int minimo = 0; 
 int maximo = 1000;
-int alarm1 = 39;
-int alarm2 = 60;
-const char* gas = "CO";
-const char* unidade = "PPM";
+// int alarm1 = 39;
+// int alarm2 = 60;
+// const char* gas = "CO";
+// const char* unidade = "PPM";
 
 void setup() {
 
@@ -33,19 +33,27 @@ void loop() {
        digitalWrite(buzz, LOW);
     }
 
+  //   Serial.println(
+  //     String("EGAS") + ";" + 
+  //     String(nameGasA0) + ";" +
+  //     String(gas) + ";" +  
+  //     String(unidade) + ";" + 
+  //     String(idGasA0) + ";" +
+  //     String(minimo) + ";" + 
+  //     String(maximo) + ";" +
+  //     String(alarm1) + ";" +
+  //     String(alarm2) + ";" +
+  //     String(co * 100000) + ";" + 
+  //     String(millis())
+  //  );
+
     Serial.println(
-      String("EGAS") + ";" + 
+      String("EGAS") + ";" +
       String(nameGasA0) + ";" +
-      String(gas) + ";" +  
-      String(unidade) + ";" + 
-      String(idGasA0) + ";" +
-      String(minimo) + ";" + 
-      String(maximo) + ";" +
-      String(alarm1) + ";" +
-      String(alarm2) + ";" +
+      String(idGasA0) + ";" +      
       String(co * 100000) + ";" + 
       String(millis())
-   ); 
+    ); 
           
     int variacao = abs(((sensorValue - sensor_value_fx) / sensor_value_fx) * 100);
     
