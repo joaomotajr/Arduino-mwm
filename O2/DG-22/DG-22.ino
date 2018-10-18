@@ -1,39 +1,43 @@
 int gas_sensor = A0;
-int buzz = 10;
+int buzz = 7;
 
 const int variacao_maxima = 20;
 float sensor_value_fx = 0;
 
-const char* idGasA0 = "120";
-const char* nameGasA0 = "DG-02";
+const char* idGasA0 = "143";
+const char* nameGasA0 = "DG-22";
 int minimo = 0; 
-int maximo = 1000;
+int maximo = 30;
 
 void setup() {
 
     Serial.begin(9600); //Baud rate
     pinMode(gas_sensor, INPUT); //Set gas sensor as input
-    pinMode(buzz, OUTPUT);   
+    pinMode(buzz, OUTPUT);
+    
 }
 
 void loop() {
-
+  
     float sensorValue = analogRead(gas_sensor);
- 
-    float co = map(sensorValue, 0, 1023, minimo, maximo);
+
+    float o2 = map(sensorValue, 0, 864, minimo, maximo);
     
-    if (co < 18){
+    if (o2 < 18){
       digitalWrite(buzz, HIGH);
     }
-    if (co > 19.5){
+    if (o2 > 19.5){
        digitalWrite(buzz, LOW);
     }
-
+  
+    Serial.print("%VOL  ");
+    Serial.println(o2);
+    
     Serial.println(
       String("EGAS") + ";" +
       String(nameGasA0) + ";" +
       String(idGasA0) + ";" +      
-      String(co * 100000) + ";" + 
+      String(o2 * 100000) + ";" + 
       String(millis())
     ); 
           
@@ -46,7 +50,5 @@ void loop() {
     } 
     else {   
       delay(10000);
-    }
-
-    sensor_value_fx = sensorValue;
+    }    
 }

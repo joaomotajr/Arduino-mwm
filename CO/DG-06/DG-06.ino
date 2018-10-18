@@ -4,8 +4,8 @@ int buzz = 10;
 const int variacao_maxima = 20;
 float sensor_value_fx = 0;
 
-const char* idGasA0 = "120";
-const char* nameGasA0 = "DG-02";
+const char* idGasA0 = "125";
+const char* nameGasA0 = "DG-06";
 int minimo = 0; 
 int maximo = 1000;
 

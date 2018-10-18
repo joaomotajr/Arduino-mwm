@@ -4,14 +4,10 @@ int buzz = 10;
 const int variacao_maxima = 20;
 float sensor_value_fx = 0;
 
-const char* idGasA0 = "120";
+const char* idGasA0 = "119";
 const char* nameGasA0 = "DG-01";
 int minimo = 0; 
 int maximo = 1000;
-// int alarm1 = 39;
-// int alarm2 = 60;
-// const char* gas = "CO";
-// const char* unidade = "PPM";
 
 void setup() {
 
@@ -31,21 +27,7 @@ void loop() {
     }
     if (co > 19.5){
        digitalWrite(buzz, LOW);
-    }
-
-  //   Serial.println(
-  //     String("EGAS") + ";" + 
-  //     String(nameGasA0) + ";" +
-  //     String(gas) + ";" +  
-  //     String(unidade) + ";" + 
-  //     String(idGasA0) + ";" +
-  //     String(minimo) + ";" + 
-  //     String(maximo) + ";" +
-  //     String(alarm1) + ";" +
-  //     String(alarm2) + ";" +
-  //     String(co * 100000) + ";" + 
-  //     String(millis())
-  //  );
+   }
 
     Serial.println(
       String("EGAS") + ";" +
