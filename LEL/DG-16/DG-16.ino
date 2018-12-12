@@ -4,50 +4,52 @@ int buzz = 10;
 const int variacao_maxima = 5;
 float sensor_value_fx = 0;
 
-const char* idGasA0 = "143";
-const char* nameGasA0 = "DG-22";
+const char* idGasA0 = "137";
+const char* nameGasA0 = "DG-16";
 int minimo = 0; 
-int maximo = 30;
+int maximo = 50;
 
 void setup() {
 
     Serial.begin(9600); //Baud rate
     pinMode(gas_sensor, INPUT); //Set gas sensor as input
-    pinMode(buzz, OUTPUT);
-    
+    pinMode(buzz, OUTPUT);   
 }
 
 void loop() {
-  
-    float sensorValue = analogRead(gas_sensor);
 
-    float o2 = map(sensorValue, 0, 864, minimo, maximo);
+    float sensorValue = analogRead(gas_sensor);
+ 
+    float LEL = map(sensorValue, 464, 880, minimo, maximo);
     
-    if (o2 < 18){
+    if (LEL >= 40){
       digitalWrite(buzz, HIGH);
     }
-    if (o2 > 19.5){
+    if (LEL <= 25){
        digitalWrite(buzz, LOW);
-    }
-   
+   }
 
-    
     Serial.println(
       String("EGAS") + ";" +
       String(nameGasA0) + ";" +
       String(idGasA0) + ";" +      
-      String(o2 * 100000) + ";" + 
+      String(LEL * 100000) + ";" + 
       String(millis())
     ); 
-          
+   
+//    Serial.println(sensorValue);
+//    Serial.println(LEL);
+         
     int variacao = abs(((sensorValue - sensor_value_fx) / sensor_value_fx) * 100);
     
     //Definir minimo de variação para envio imediato, ou espera 
     if (variacao > variacao_maxima)  
     {
-      delay(500);      
+      delay(800); // mudar para 3000     
     } 
     else {   
-      delay(10000);
-    }    
+      delay(1000); // mudar para 10000
+    }
+
+    sensor_value_fx = sensorValue;
 }

@@ -4,10 +4,10 @@ int buzz = 10;
 const int variacao_maxima = 10;
 int sensor_value_fx = 0;
 
-const char* idGasA0 = "122";
-const char* nameGasA0 = "DG-04";
+const char* idGasA0 = "142";
+const char* nameGasA0 = "DG-21";
 int minimo = 0;
-int maximo = 100;
+int maximo = 300;
 
 
 
@@ -38,26 +38,25 @@ void loop() {
   float val_M = accuml / 50;                 //  calcula a temperatura média das ultima 50 leituras
 
 
-  float CO = map(val_M, 27, 224, minimo, maximo);
+  float NO = map(val_M, 516, 891, minimo, maximo);
 
-  if (CO >= 40) {
+  if (NO >= 100) {
     digitalWrite(buzz, HIGH);
   }
-  if (CO <= 25) {
+  if (NO <= 50) {
     digitalWrite(buzz, LOW);
   }
-
 
   Serial.println(
     String("EGAS") + ";" +
     String(nameGasA0) + ";" +
     String(idGasA0) + ";" +
-    String(CO * 100000) + ";" +
+    String(NO * 100000) + ";" +
     String(millis())
   );
 
-//  Serial.println(val_M);
-//  Serial.println(CO);
+//   Serial.println(val_M);
+//   Serial.println(NO);
 
   int variacao = abs(((val_M - sensor_value_fx) / sensor_value_fx) * 100);
 
