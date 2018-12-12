@@ -1,0 +1,222 @@
+[
+  {
+    "tipo": "CO",
+    "minValue": 0,
+    "alarm2": 60,
+    "alarm1": 39,
+    "maxValue": 100,
+    "unidade": "PPM",
+    "detail": "BANCO 15",
+    "id": 119
+  },
+  {
+    "tipo": "CO",
+    "minValue": 0,
+    "alarm2": 60,
+    "alarm1": 39,
+    "maxValue": 100,
+    "unidade": "PPM",
+    "detail": "BANCO 10",
+    "id": 120
+  },
+  {
+    "tipo": "CO",
+    "minValue": 0,
+    "alarm2": 60,
+    "alarm1": 39,
+    "maxValue": 100,
+    "unidade": "PPM",
+    "detail": "BANCO 13",
+    "id": 121
+  },
+  {
+    "tipo": "CO",
+    "minValue": 0,
+    "alarm2": 60,
+    "alarm1": 39,
+    "maxValue": 100,
+    "unidade": "PPM",
+    "detail": "BANCO 01",
+    "id": 122
+  },
+  {
+    "tipo": "CO",
+    "minValue": 0,
+    "alarm2": 60,
+    "alarm1": 39,
+    "maxValue": 100,
+    "unidade": "PPM",
+    "detail": "SALA DE GASES",
+    "id": 123
+  },
+  {
+    "tipo": "CO",
+    "minValue": 0,
+    "alarm2": 60,
+    "alarm1": 39,
+    "maxValue": 100,
+    "unidade": "PPM",
+    "detail": "BANCO 12",
+    "id": 125
+  },
+  {
+    "tipo": "CO",
+    "minValue": 0,
+    "alarm2": 60,
+    "alarm1": 39,
+    "maxValue": 100,
+    "unidade": "PPM",
+    "detail": "MEXA",
+    "id": 126
+  },
+  {
+    "tipo": "O2",
+    "minValue": 0,
+    "alarm2": 19.5,
+    "alarm1": 18,
+    "maxValue": 30,
+    "unidade": "Vol%",
+    "detail": "BANCO 12",
+    "id": 143
+  },
+  {
+    "tipo": "Lel",
+    "minValue": 0,
+    "alarm2": 40,
+    "alarm1": 25,
+    "maxValue": 100,
+    "unidade": "Lel%",
+    "detail": "SALA DE GASES",
+    "id": 133
+  },
+  {
+    "tipo": "Lel",
+    "minValue": 0,
+    "alarm2": 40,
+    "alarm1": 25,
+    "maxValue": 100,
+    "unidade": "Lel%",
+    "detail": "MEXA",
+    "id": 132
+  },
+  {
+    "tipo": "Lel",
+    "minValue": 0,
+    "alarm2": 40,
+    "alarm1": 25,
+    "maxValue": 100,
+    "unidade": "Lel%",
+    "detail": "BANCO 10",
+    "id": 135
+  },
+  {
+    "tipo": "Lel",
+    "minValue": 0,
+    "alarm2": 40,
+    "alarm1": 25,
+    "maxValue": 100,
+    "unidade": "Lel%",
+    "detail": "BANCO 01",
+    "id": 136
+  },
+  {
+    "tipo": "Lel",
+    "minValue": 0,
+    "alarm2": 40,
+    "alarm1": 25,
+    "maxValue": 100,
+    "unidade": "Lel%",
+    "detail": "BANCO 12",
+    "id": 131
+  },
+  {  
+    "tipo": "Lel",
+    "minValue": 0,
+    "alarm2": 40,
+    "alarm1": 25,
+    "maxValue": 100,
+    "unidade": "Lel%",
+    "detail": "BANCO 15",
+    "id": 138
+  },
+  {
+    "tipo": "Lel",
+    "minValue": 0,
+    "alarm2": 40,
+    "alarm1": 25,
+    "maxValue": 100,
+    "unidade": "Lel%",
+    "detail": "BANCO 13",
+    "id": 137
+  },
+  {
+    "tipo": "NO",
+    "minValue": 0,
+    "alarm2": 100,
+    "alarm1": 50,
+    "maxValue": 300,
+    "unidade": "PPM",
+    "detail": "BANCO 13",
+    "id": 141
+  },
+  {
+    "tipo": "NO",
+    "minValue": 0,
+    "alarm2": 100,
+    "alarm1": 50,
+    "maxValue": 300,
+    "unidade": "PPM",
+    "detail": "SALA DE GASES",
+    "id": 139
+  },
+  {
+    "tipo": "NO",
+    "minValue": 0,
+    "alarm2": 100,
+    "alarm1": 50,
+    "maxValue": 300,
+    "unidade": "PPM",
+    "detail": "BANCO 01",
+    "id": 129
+  },
+  {
+    "tipo": "NO",
+    "minValue": 0,
+    "alarm2": 100,
+    "alarm1": 50,
+    "maxValue": 300,
+    "unidade": "PPM",
+    "detail": "BANCO 12",
+    "id": 142
+  },
+  {
+    "tipo": "NO",
+    "minValue": 0,
+    "alarm2": 100,
+    "alarm1": 50,
+    "maxValue": 300,
+    "unidade": "PPM",
+    "detail": "MEXA",
+    "id": 128
+  },
+  {
+    "tipo": "NO",
+    "minValue": 0,
+    "alarm2": 100,
+    "alarm1": 50,
+    "maxValue": 300,
+    "unidade": "PPM",
+    "detail": "BANCO 15",
+    "id": 140
+  },
+  {
+    "tipo": "NO",
+    "minValue": 0,
+    "alarm2": 100,
+    "alarm1": 50,
+    "maxValue": 300,
+    "unidade": "PPM",
+    "detail": "BANCO 10",
+    "id": 127
+  }
+]
