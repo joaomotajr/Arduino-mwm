@@ -21,8 +21,9 @@ void loop() {
     Serial.println(
       String("EGAS") + ";" +
       String(nameGasA0) + ";" +
-      String(idGasA0) + ";" +      
-      String(value) + ";" + 
+      String(idGasA0) + ";" +
+      String(sensorValueA0) + ";" +       
+      String(value) + ";" +       
       String(millis())
     ); 
 
@@ -30,12 +31,13 @@ void loop() {
     //Serial.println(String("Variação :: ") + String(variacao) + " %");
     
     //Definir minimo de variação para envio imediato, ou espera 
-    if (variacao > variacao_maxima)  
-    {
-      delay(3000);      
-    } 
-    else {   
-      delay(10000);
-    }
+//    if (variacao > variacao_maxima)  
+//    {
+//      delay(3000);      
+//    } 
+//    else {   
+//      delay(10000);
+//    }
+   delay(3000);
     sensor_volt_A0_FX = sensor_volt_A0;
 }
