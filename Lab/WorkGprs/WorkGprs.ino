@@ -1,20 +1,30 @@
 #include <ArduinoJson.h>
 #include <LGPRS.h>
 #include <LGPRSClient.h>
+#include <Nanoshield_ADC.h>
 
 const char* apn = "claro.com.br";
 const char* user = "claro";
 const char* pass = "claro";
 
+const unsigned long HTTP_TIMEOUT = 10000;  // max respone time from server
+const size_t MAX_CONTENT_SIZE = 512;       // max size of the HTTP response
+
 char host[] = "177.144.134.145";
-char uri[] = "/api/historic/SaveByPositionUid2/144/166934";
+char uri[] = "/api/historic/SaveByPositionIOT/";
 int port = 8090;
 
-int connGPRS(char host[], int port);
-int getHTTP(char host[], char uri[]);
-void attachGPRS(const char* apn, const char* user, const char* pass);
+const char* idFlow = "146";
+float highValue = 12;
+float lowValue = 0;
 
-int result = 0;
+Nanoshield_ADC adc;
+int channel = 0;
+
+struct clientData {
+  char type[8];
+  char message[8];
+};
 
 LGPRSClient client;
 
@@ -24,27 +34,40 @@ void setup()
     Serial.begin(115200);
     while (!Serial) continue;
 
-    attachGPRS(apn, user, pass);
-    result = connGPRS(host, port);
-    
+    attachGPRS(apn, user, pass);    
+
+    adc.begin();
+    adc.setGain(GAIN_TWO);
 }
 
 void loop()
 {
-    Serial.println("Enviando dados...!");
+  float mA = adc.read4to20mA(channel);
+  Serial.print(mA, 6);
+  Serial.println("mA");
 
-    if (getHTTP(host, uri)) {
-        Serial.println("Dados Enviados!");
-        delay(10000);
-    }
-    else {
-        Serial.println("Erro, aguardando nova conexão!");
-        delay(30000);
-        attachGPRS(apn, user, pass);
-        result = connGPRS(host, port);
-    }
+  //Linearizing
+  float measure =  lowValue + (highValue - lowValue) * (mA - 4) / 16;
 
-    Serial.println("Fim Ciclo.");
+  Serial.print(measure, 6);
+  Serial.println("m3Ltrs");
+  
+  if(connGPRS(host, port)) {
+    String dataReaded = String(idFlow) + "/" + String(measure*100000).c_str();
+    if(sendRequest(host, uri, dataReaded)) {
+      if(skipResponseHeaders()) {
+        clientData clientData;
+        if(testRead()) {
+        }
+//        if(readReponseContent(&clientData)) {
+//          printclientData(&clientData);
+//        }
+      }
+    }
+  }
+  disconnect();
+  delay(10000);
+
 }
 
 

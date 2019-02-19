@@ -2,7 +2,7 @@
 #include <LGPRSClient.h>
 
 char server[] = "177.144.134.145";
-char path[] = "/api/historic/SaveByPositionUid2/144/166934";
+char path[] = "/api/historic/SaveByPositionIOT/144/166934";
 int port = 8090;
 
 LGPRSClient client;
