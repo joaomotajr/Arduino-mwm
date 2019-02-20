@@ -23,12 +23,28 @@ void setup()
 
   // Adjust gain to two (2.048V range) to get maximum resolution for 4-20mA range
   adc.setGain(GAIN_TWO);
+
+  pinMode(13, OUTPUT);
+  warningLight(6);
 }
 
 void loop()
 {
   Serial.print(adc.read4to20mA(channel), 6);
   Serial.println("mA");
-  
+
+  warningLight(2);
   delay(1000);
+}
+
+
+void warningLight(int times) {  
+  int i = 0;
+  for(i = 0; i < times; i++) {
+    digitalWrite(13, HIGH);
+    delay(1000);
+    digitalWrite(13, LOW);
+    delay(1000);    
+  }  
+  delay(1000); 
 }

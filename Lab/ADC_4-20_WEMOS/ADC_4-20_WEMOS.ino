@@ -6,7 +6,7 @@
 const char* ssid = "jrnet2.4";
 const char* password = "P@lmeiras";
 const char* mqtt_server = "177.144.134.145";
-const char* idFlow = "151";
+const char* idFlow = "146";
 
 //Wifi
 WiFiClient wifiClient;
