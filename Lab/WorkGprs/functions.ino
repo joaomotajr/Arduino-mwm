@@ -1,3 +1,13 @@
+void initADC() {
+
+  Serial.print("16-bit ADC Nanoshield - Read 4-20mA sensor (channel A");
+  Serial.print(channel);
+  Serial.println(")");
+  adc.begin();
+
+  // Adjust gain to two (2.048V range) to get maximum resolution for 4-20mA range
+  adc.setGain(GAIN_TWO);
+}
 
 void attachGPRS(const char* apn, const char* user, const char* pass) {
 
@@ -17,6 +27,7 @@ bool connGPRS(char host[], int port) {
     return true;
   } else {  
     Serial.println("connection failed :: " + String(host) + ":" + String(port));
+    warningLight(3);
     return false;
   }
 }
@@ -35,6 +46,7 @@ bool sendRequest(char* host, char* uri, String dataReaded) {
     if (client.println() == 0) {
         Serial.println("Failed to send request");
         client.stop();
+        warningLight(4);
         return false;
     }    
     return true;
@@ -49,6 +61,7 @@ bool skipResponseHeaders() {
         Serial.print("Unexpected response: ");
         Serial.println(status);
         client.stop();
+        warningLight(5);
         return false;
     }
     
@@ -57,6 +70,7 @@ bool skipResponseHeaders() {
     if (!client.find(endOfHeaders)) {
         Serial.println("Invalid response");
         client.stop();
+        warningLight(5);
         return false;
     }
     return true;
@@ -71,9 +85,7 @@ bool testRead() {
         String res = line.substring(0,41);
         Serial.println(res);
       }
-    }
-    client.stop();
-    Serial.println("\n[Disconnected]");
+    }    
     return true;
 }
 
@@ -92,6 +104,7 @@ bool readReponseContent(struct clientData* clientData) {
 
   if (!root.success()) {
     Serial.println("JSON parsing failed!");
+    warningLight(6);
     return false;
   }
 
@@ -114,4 +127,15 @@ void printclientData(const struct clientData* clientData) {
 void disconnect() {
   Serial.println("Disconnect");
   client.stop();
+}
+
+void warningLight(int times) {  
+  int i = 0;
+  for(i = 0; i < times; i++) {
+    digitalWrite(13, HIGH);
+    delay(1000);
+    digitalWrite(13, LOW);
+    delay(1000);    
+  }  
+  delay(1000); 
 }

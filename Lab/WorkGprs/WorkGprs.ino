@@ -7,21 +7,39 @@ const char* apn = "claro.com.br";
 const char* user = "claro";
 const char* pass = "claro";
 
-char host[] = "arduino.cc";
-char uri[] = "/asciilogo.txt";
-int port = 80;
+const unsigned long HTTP_TIMEOUT = 10000;  // max respone time from server
+const size_t MAX_CONTENT_SIZE = 512;       // max size of the HTTP response
+
+char host[] = "177.144.134.145";
+char uri[] = "/api/historic/SaveByPositionIOT/";
+int port = 8090;
+
+const char* idFlow = "146";
+float highValue = 12;
+float lowValue = 0;
+
+Nanoshield_ADC adc;
+int channel = 0;
+
+struct clientData {
+  char type[8];
+  char message[8];
+};
 
 LGPRSClient client;
 
 void setup()
 {
-    // setup Serial po
-    Serial.begin(115200);
+    Serial.begin(9600);
     while (!Serial) continue;
 
+    pinMode(13, OUTPUT);
+    warningLight(8);
+
+    initADC();
+
     attachGPRS(apn, user, pass);
-    connGPRS(host, port);
-    
+    connGPRS(host, port);    
 }
 
 void loop()
@@ -47,40 +65,10 @@ void loop()
 //          printclientData(&clientData);
 //        }
       }
-    }
-    else {
-        Serial.println("Erro, aguardando nova conexão!");
-        delay(30000);
-        attachGPRS(apn, user, pass);
-        connGPRS(host, port);
-    }
-
-}
-
-
-
-const unsigned long HTTP_TIMEOUT = 10000;  // max respone time from server
-const size_t MAX_CONTENT_SIZE = 512;       // max size of the HTTP response
-char host[] = "177.144.134.145";
-char uri[] = "/api/historic/SaveByPositionIOT/";
-int port = 8090;
-
-const char* idFlow = "146";
-float highValue = 12;
-float lowValue = 0;
-
-Nanoshield_ADC adc;
-int channel = 0;
-
-struct clientData {
-  char type[8];
-  char message[8];
-};
-
-    attachGPRS(apn, user, pass);    
-
-    adc.begin();
-    adc.setGain(GAIN_TWO);
+    }     
   }
+
+  warningLight(2);
   disconnect();
   delay(10000);
+}
