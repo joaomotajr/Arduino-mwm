@@ -40,6 +40,25 @@ bool sendRequest(char* host, char* uri, String dataReaded) {
     return true;
 }
 
+bool sendRequestURI(char* host, char* uri) {
+
+    log("Processando chamada REST [URI]: " + String(uri), true);
+
+    client.print("GET ");    
+    client.print(String(uri));
+    client.println(" HTTP/1.1");
+    client.print("Host: ");
+    client.println(host);
+    client.println("Connection: close");
+    
+    if (client.println() == 0) {
+        log("Falha na Requisição.", true);
+        client.stop();        
+        return false;
+    }    
+    return true;
+}
+
 bool skipResponseHeaders() {
     log("Validando Response. ", false);
   
@@ -64,26 +83,25 @@ bool skipResponseHeaders() {
 }
 
 bool checkReponse() {
+  
+  log("Response: ", false);
+  while (client.connected() || client.available())
+  {
+    if (client.available()) {
+      String line = client.readStringUntil('\n');
+      String res = line.substring(0,41);
+      Serial.println(res);
 
-    log("Response: ", false);
-    while (client.connected() || client.available())
-    {
-      if (client.available()) {
-        String line = client.readStringUntil('\n');
-        String res = line.substring(0,41);
-        Serial.println(res);
-
-        String respostaSistema = parseResult(res); 
-        if (respostaSistema == "SUCCESS") {
-          log("Sistema Atualizado: " + respostaSistema, true);
-        } else {
-          log("Sistema Não Atualizado: " + respostaSistema, true);
-        }
-        
-        break;
-      }
-    }    
-    return true;
+      String respostaSistema = parseResult(res); 
+      if (respostaSistema == "SUCCESS") {
+        log("Sistema Atualizado: " + respostaSistema, true);
+      } else {
+        log("Sistema Não Atualizado: " + respostaSistema, true);
+      }        
+      break;
+    }
+  }    
+   return true;
 }
 
 String parseResult(String response) {

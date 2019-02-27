@@ -15,9 +15,6 @@ const char* idFlow = "146";
 float highValue = 12;
 float lowValue = 0;
 
-//Nanoshield_ADC adc;
-//int channel = 0;
-
 LGPRSClient client;
 
 void setup() {
@@ -42,15 +39,15 @@ void loop() {
   
   if(connGPRS(host, port)) {
     String dataReaded = String(idFlow) + "/" + String(flow*100000).c_str();
-//    if(sendRequest(host, uri, dataReaded)) {
-//      if(skipResponseHeaders()) {
-//        checkReponse();
-//      }
-//    }
+    if(sendRequest(host, uri, dataReaded)) {
+      if(skipResponseHeaders()) {
+        checkReponse();
+      }
+    }
   }
   
   disconnect();
-  delay(20000);     
+  delay(60000);     
 }
 
 void initFeedback() { 
