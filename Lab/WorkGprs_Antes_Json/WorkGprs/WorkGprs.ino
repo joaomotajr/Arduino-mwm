@@ -47,13 +47,13 @@ void loop() {
   
   if(connGPRS(host, port)) {
     String dataReaded = String(idFlow) + "/" + String(measure*100000).c_str();
-//    if(sendRequest(host, uri, dataReaded)) {
-//      if(skipResponseHeaders()) {
-//        testRead();
-//      }
-//    }
+    if(sendRequest(host, uri, dataReaded)) {
+      if(skipResponseHeaders()) {
+        testRead();
+      }
+    }
     disconnect();
-    delay(10000);
+    delay(20000);
   }   
 }
 

@@ -73,6 +73,9 @@ bool skipResponseHeaders() {
         warningLight(5);
         return false;
     }
+    
+    char endOfHeaders2[] = "\n";
+    client.find(endOfHeaders2);
     return true;
 }
 
@@ -82,8 +85,9 @@ bool testRead() {
     {
       if (client.available()) {
         String line = client.readStringUntil('\n');
-        String res = line.substring(0,41);
+        String res = line.substring(0,40);
         Serial.println(res);
+        break;
       }
     }    
     return true;
