@@ -10,8 +10,18 @@ void attachGPRS(const char* apn, const char* user, const char* pass) {
   Serial.println("[Conectado]");
 }
 
-bool connGPRS(char host[], int port) {
+bool testGPRS(char host[], int port) {
   client.setTimeout(60000);
+  if (client.connect(host, port)) {
+    Serial.println("Conectando ao Host :: " + String(host) + ":" + String(port) + "... [Conectado]");
+    return true;
+  } else {  
+    Serial.println("Falha na Conexão :: " + String(host) + ":" + String(port));   
+    return false;
+  }
+}
+
+bool connGPRS(char host[], int port) {  
   if (client.connect(host, port)) {
     log("Conectando ao Host :: " + String(host) + ":" + String(port) + "... [Conectado]", true);
     return true;
@@ -21,12 +31,12 @@ bool connGPRS(char host[], int port) {
   }
 }
 
-bool sendRequest(char* host, char* uri, String dataReaded) {
+bool sendRequest(char* host, String uri) {
 
-    log("Processando chamada REST [URI]: " + String(uri) + String(dataReaded), true);
+    log("Processando chamada REST [URI]: " + uri, true);
 
     client.print("GET ");    
-    client.print(String(uri) + dataReaded);
+    client.print(uri);
     client.println(" HTTP/1.1");
     client.print("Host: ");
     client.println(host);
@@ -90,7 +100,7 @@ bool checkReponse() {
     if (client.available()) {
       String line = client.readStringUntil('\n');
       String res = line.substring(0,41);
-      Serial.println(res);
+//    Serial.println(res);
 
       String respostaSistema = parseResult(res); 
       if (respostaSistema == "SUCCESS") {

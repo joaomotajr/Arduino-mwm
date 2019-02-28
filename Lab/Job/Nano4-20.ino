@@ -18,10 +18,10 @@ float processADC() {
   if(mA_ >= 3.98 && mA_ <= 3.99) {
     mA_ = 4.0;
   }
-  
-  putLog(String(mA_));
-  
+    
   float flow =  lowValue + (highValue - lowValue) * (mA_ - 4) / 16;  
   log("Medição -> 4~20: " + String(mA_) + " FLOW: " + String(flow), true);
+  dataLog(String(flow));
+  
   return flow;
 }

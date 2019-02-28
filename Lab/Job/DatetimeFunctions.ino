@@ -3,6 +3,58 @@
 datetimeInfo t;
 unsigned int rtc;
 
+void setDatetimeOnline() {  
+  Serial.println("Inicializando Data");
+  if(sendRequest(host, String(uriDate))) {
+    if(skipResponseHeaders()) {
+      checkReponseDate();
+    }
+  }
+  Serial.println("Data Atualizada");  
+  Serial.println("---------------------------------------------");
+}
+
+void parseDateResult(String response) {
+
+  Serial.print("Parsing Data - ");
+  const size_t capacity = JSON_OBJECT_SIZE(9);
+  DynamicJsonBuffer jsonBuffer(capacity);        
+  JsonObject& root = jsonBuffer.parseObject(response);
+
+  if (!root.success()) {
+    Serial.println("JSON com Erro!");    
+  } else {
+    
+    datetimeInfo now;
+    now.year = String(root["year"].as<char*>()).toInt();
+    now.mon = String(root["mon"].as<char*>()).toInt();
+    now.day = String(root["day"].as<char*>()).toInt();
+    now.hour = String(root["hour"].as<char*>()).toInt();
+    now.min = String(root["min"].as<char*>()).toInt();
+    LDateTime.setTime(&now);
+    
+    Serial.print("Data Aferida Online: ");
+    Serial.println(getDatetime());
+  }  
+}
+
+
+void checkReponseDate() {
+  
+  Serial.print("Response Date: ");
+  while (client.connected() || client.available())
+  {
+    if (client.available()) {
+      String line = client.readStringUntil('\n');
+      String res = line.substring(0,150);
+      Serial.println(res);
+      
+      parseDateResult(res);
+      break;
+    }
+  }   
+}
+
 String getDatetime() {
 
   LDateTime.getTime(&t);
@@ -58,11 +110,12 @@ String getDateInt() {
 }
 
 void setDatetime() {
+
   datetimeInfo now;
   now.year = 2019;
   now.mon = 2;
-  now.day = 26;
-  now.hour = 23;
-  now.min = 22;
+  now.day = 27;
+  now.hour = 22;
+  now.min = 23;
   LDateTime.setTime(&now);
 }

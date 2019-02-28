@@ -14,15 +14,16 @@ bool initSD() {
   }
 }
 
-void putLog(String dataReaded) {  
-    log("LogFile :: ", false);
+void dataLog(String dataReaded) {  
+    char file[16] = "";
+    String fileName = getDateInt() + "_Sensor.log";
+
+    Serial.print(getDatetime());
+    Serial.print(" Arquivo: " + fileName);
+    Serial.print(" - Dados :: ");
     Serial.print(getDatetime());
     Serial.print(" | ");
     Serial.println(dataReaded);
-
-    char file[15] = "";
-    String fileName = getDateInt() + "_Sensor.log";
-    log("Arquivo : " + fileName, true);        
 
     fileName.toCharArray(file, 19);
     
