@@ -15,7 +15,7 @@ float processADC() {
   float mA = adc.read4to20mA(channel);
   float mA_ = (mA*100)/100;
   
-  if(mA_ >= 3.98 && mA_ <= 3.99) {
+  if(mA_ >= 3.97 && mA_ <= 4) {
     mA_ = 4.0;
   }
     

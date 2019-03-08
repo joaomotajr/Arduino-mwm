@@ -48,7 +48,7 @@ void loop() {
   }
   
   disconnect();
-  delay(30000);     
+  delay(10000);     
 }
 
 void initFeedback() { 
