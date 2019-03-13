@@ -21,7 +21,10 @@ float processADC() {
     
   float flow =  lowValue + (highValue - lowValue) * (mA_ - 4) / 16;  
   log("Medição -> 4~20: " + String(mA_) + " FLOW: " + String(flow), true);
-  dataLog(String(flow));
+
+  if(logLevel >= 1) {
+    dataLog(String(flow));
+  }
   
   return flow;
 }

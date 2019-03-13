@@ -32,10 +32,11 @@ void dataLog(String dataReaded) {
     LFile dataFile = Drv.open(file, FILE_WRITE);
     if (dataFile) {
       dataFile.print(getTime());
+      dataFile.print("\t");
       dataFile.println(dataReaded);
       dataFile.close();    
     } else {
-      log("Erro ao abrir " + fileName , true);
+      dataLogError("Erro ao abrir " + fileName);
     }
 }
 

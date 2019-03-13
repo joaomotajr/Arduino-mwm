@@ -16,6 +16,9 @@ const char* idFlow = "146";
 float highValue = 12;
 float lowValue = 0;
 
+int logLevel = 2; //  3 : Cartão, Envio e Check Response | 2 : Cartão e Envio | 1 : Cartão  | 0 : Só Leitura
+int delayTime = 5000;
+
 LGPRSClient client;
 
 void setup() {
@@ -38,17 +41,17 @@ void loop() {
 
   float flow = processADC();
   
-  if(connGPRS(host, port)) {
+  if(logLevel >= 2 && connGPRS(host, port)) {
     String dataReaded = String(idFlow) + "/" + String(flow*100000).c_str();
     if(sendRequest(host, String(uri) + String(dataReaded))) {
-      if(skipResponseHeaders()) {
+      if(logLevel >= 3 && skipResponseHeaders()) {
         checkReponse();
       }
     }
   }
   
   disconnect();
-  delay(10000);     
+  delay(delayTime);     
 }
 
 void initFeedback() { 
