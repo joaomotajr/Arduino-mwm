@@ -2,8 +2,8 @@
 #include <LSD.h>
 #include <LStorage.h>
 
-#define Drv LFlash          // use Internal 10M Flash 
-// #define Drv LSD           // use SD card
+//#define Drv LFlash          // use Internal 10M Flash 
+ #define Drv LSD           // use SD card
 
 char file[15] = "";
 
