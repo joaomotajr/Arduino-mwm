@@ -1,3 +1,5 @@
+#include <Nanoshield_ADC.h>
+
 Nanoshield_ADC adc;
 int channel = 0;
 

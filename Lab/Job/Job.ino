@@ -1,7 +1,4 @@
 #include <ArduinoJson.h>
-#include <LGPRS.h>
-#include <LGPRSClient.h>
-#include <Nanoshield_ADC.h>
 
 const char* apn = "claro.com.br";
 const char* user = "claro";
@@ -19,6 +16,8 @@ float lowValue = 0;
 int logLevel = 2; //  3 : Cartão, Envio e Check Response | 2 : Cartão e Envio | 1 : Cartão  | 0 : Só Leitura
 int delayTime = 5000;
 
+const char* cellPhoneNumber = "11985340006";
+
 LGPRSClient client;
 
 void setup() {
@@ -29,6 +28,7 @@ void setup() {
 
     initSD();
     initADC();
+    initSMS();
     
     attachGPRS(apn, user, pass);
     if(testGPRS(host, port)) {

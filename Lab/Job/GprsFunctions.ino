@@ -1,3 +1,5 @@
+#include <LGPRS.h>
+#include <LGPRSClient.h>
 
 void attachGPRS(const char* apn, const char* user, const char* pass) {
 
