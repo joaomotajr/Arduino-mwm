@@ -1,4 +1,6 @@
 #include <ArduinoJson.h>
+#include <LGPRS.h>
+#include <LGPRSClient.h>
 
 const char* apn = "claro.com.br";
 const char* user = "claro";

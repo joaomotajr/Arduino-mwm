@@ -7,8 +7,8 @@ bool initSMS() {
   while (!LSMS.ready()) {
       delay(1000);
       Serial.println(".");
-      cont++;
-      if(cont > 10) {
+      count++;
+      if(count > 10) {
           Serial.println("GSM NOT ready for sending SMS");
            return false;
       }  
@@ -37,9 +37,9 @@ bool readSMS(String resp) {
         LSMS.remoteNumber(p_num, 20);
         log("There is new message.", true);
         
-        log("Number: ");
-        log(p_num);
-        log("Content: ");
+        log("Number: ", false);
+        log(p_num, true);
+        log("Content: ", false);
 
         while(true) {
             int v = LSMS.read();
@@ -50,10 +50,9 @@ bool readSMS(String resp) {
         }
 
         Serial.println();
-        if (strlen(resp)> 0)
-            sendSMS(resp);
-
         LSMS.flush(); 
+
+        sendSMS(resp);
         
         if((dtaget[0] == 'O' && dtaget[1] == 'N') || (dtaget[0] == 'o' && dtaget[1] == 'n')) {
             ledOn;
@@ -79,11 +78,8 @@ String getSMS(String resp) {
             dtaget[len++] = (char)v;
             content += String((char)v);
         }
-        
-        if (strlen(resp)> 0)
-            sendSMS(resp);
-
         LSMS.flush(); 
+        sendSMS(resp);
         
         if((dtaget[0] == 'O' && dtaget[1] == 'N') || (dtaget[0] == 'o' && dtaget[1] == 'n')) {
             ledOn;
