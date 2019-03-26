@@ -71,7 +71,7 @@ void writeFile(char* fileName, String content) {
   }
 }
 
-String readFile(char* fileName) {
+String readFile(char fileName[]) {
   
   LFile dataFile = Drv.open(fileName);
   String content = "";

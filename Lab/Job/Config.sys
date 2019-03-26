@@ -1,0 +1,41 @@
+{  
+    "WIFI" :  {
+      "ap": "jrnet2.4",
+      "pass": "P@lmeiras",
+      "auth": "LWIFI_WPA"
+    },
+    "DEVICE": {      
+      "id": "145",
+      "max": "12",
+      "mim": "0"
+    },
+    "API": {
+      "host": "177.144.134.145",
+      "uri": "/api/util/time/",
+      "port": "8090"      
+    },
+    "SYSTEM": {
+      "delay": "5000",
+      "loglevel": "3",
+      "connType": "WIFI"
+    }, 
+     "GPRS": [
+          {
+            "apn": "claro.com.br",
+            "user": "claro",
+            "pass": "8090"
+          }, {
+            "apn": "timbrasil.com.br",
+            "user": "tim",
+            "pass": "tim"
+          }, {
+            "apn": "gprs.oi.com.br",
+            "user": "oi",
+            "pass": "oi"
+          }, {
+            "apn": "zap.vivo.com.br",
+            "user": "vivo",
+            "pass": "vivo"
+          }
+      ] 
+  }
