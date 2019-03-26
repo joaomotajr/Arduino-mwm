@@ -100,6 +100,20 @@ String parseResult(String response) {
   }  
 }
 
+void getConfig() {
+  char fileName[] = "config.json";
+  String response = readFile(fileName);
+  const size_t capacity = JSON_ARRAY_SIZE(4) + 8*JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(5);
+  DynamicJsonBuffer jsonBuffer(capacity);        
+  JsonObject& root = jsonBuffer.parseObject(response);
+
+  if (!root.success()) {
+    dataLogError("JSON com Erro!");        
+  } else {
+    connType = root["SYSTEM"]["connType"].as<char*>();
+  }  
+}
+
 void disconnect() {
   log("Fechando Ciclo.", true);
   Serial.println("");
