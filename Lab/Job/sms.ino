@@ -18,16 +18,6 @@ bool initSMS() {
   return true;
 }
 
-void sendSMS(String message){
-  LSMS.beginSMS(cellPhoneNumber); 
-  LSMS.print(message);
-  if (LSMS.endSMS()) {
-      log("SMS enviado com sucesso", true);
-  } else{
-      log("SMS falha no envio", true);
-  }
-}
-
 void sendSMS(String message, char* n){
   LSMS.beginSMS(n); 
   LSMS.print(message);
@@ -91,7 +81,7 @@ String getSMS(String resp) {
             content += String((char)v);
         }
         LSMS.flush(); 
-        sendSMS(resp);
+        sendSMS(resp, p_num);
         
         if((dtaget[0] == 'O' && dtaget[1] == 'N') || (dtaget[0] == 'o' && dtaget[1] == 'n')) {
             ledOn;

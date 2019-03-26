@@ -1,5 +1,5 @@
-void attachGPRS(const char* apn, const char* user, const char* pass) {
-  Serial.print("Buscando Rede GRPS ... ");
+void attachGPRS(char apn[], const char user[], const char pass[]) {
+  Serial.print("Buscando Rede GRPS ... " + String(apn));
   while (!LGPRS.attachGPRS(apn, user, pass)) {
     delay(500);
     Serial.print(".");
@@ -28,7 +28,7 @@ bool connGPRS(char host[], int port) {
   }
 }
 
-bool sendRequest(char* host, String uri) {
+bool sendRequest(char host[], String uri) {
     log("Processando chamada REST [URI]: " + uri, true);
 
     client.print("GET ");    

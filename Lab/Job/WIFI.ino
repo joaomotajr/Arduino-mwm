@@ -46,7 +46,7 @@ bool connClientWiFi(char host[], int port) {
   return true;
 }
 
-bool sendRequestUriWiFi(char* host, String uri) {
+bool sendRequestUriWiFi(char host[], String uri) {
     log("Processando chamada REST [URI]: " + uri, true);
     clientWiFi.print("GET ");    
     clientWiFi.print(String(uri));

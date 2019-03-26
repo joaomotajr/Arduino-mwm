@@ -8,23 +8,21 @@
 #define WIFI_PASSWORD "P@lmeiras"
 #define WIFI_AUTH LWIFI_WPA
 
-const char* connType = "WIFI";
-const char* apn = "claro.com.br";
-const char* user = "claro";
-const char* pass = "claro";
+char connType[] = "WIFI"; 
+char apn[] = "claro.com.br";
+char user[] = "claro";
+char pass[] = "claro";
 
 char host[] = "177.144.134.145";
 char uri[] = "/api/historic/SaveByPositionIOT/";
 char uriDate[] = "/api/util/time/";
 int port = 8090;
 
-const char* idFlow = "145";
+char idDevice[] = "145";
 float highValue = 12;
 float lowValue = 0;
 int logLevel = 3;   // 3 : Cartão, Envio e Check Response | 2 : Cartão e Envio | 1 : Cartão  | 0 : Só Leitura
 int delayTime = 5000;
-
-const char* cellPhoneNumber = "11985340006";
 
 LGPRSClient client;
 LWiFiClient clientWiFi;
@@ -64,7 +62,7 @@ void loop() {
 
   if(connType == "WIFI") {
     if(logLevel >= 2 && connClientWiFi(host, port)) {
-      String dataReaded = String(idFlow) + "/" + String(flow*100000).c_str();
+      String dataReaded = String(idDevice) + "/" + String(flow*100000).c_str();
       if(sendRequestUriWiFi(host, String(uri) + String(dataReaded))) {
         if(logLevel >= 3 && skipResponseHeadersWiFi()) {
           checkReponseWiFi();
@@ -74,7 +72,7 @@ void loop() {
     }
   } else if (connType == "GPRS") {
     if(logLevel >= 2 && connGPRS(host, port)) {
-      String dataReaded = String(idFlow) + "/" + String(flow*100000).c_str();
+      String dataReaded = String(idDevice) + "/" + String(flow*100000).c_str();
       if(sendRequest(host, String(uri) + String(dataReaded))) {
         if(logLevel >= 3 && skipResponseHeaders()) {
           checkReponse();
@@ -94,3 +92,5 @@ void initFeedback() {
   Serial.println("");
   warningLight(2);  
 }
+
+void(* resetFunc) (void) = 0;
