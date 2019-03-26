@@ -8,3 +8,11 @@ void warningLight(int times) {
   }  
   delay(1000); 
 }
+
+void ledOn() {
+ digitalWrite(13, HIGH); 
+}
+
+void ledOff() {
+ digitalWrite(13, LOW); 
+}

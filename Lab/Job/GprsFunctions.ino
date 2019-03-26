@@ -1,19 +1,16 @@
-
 void attachGPRS(const char* apn, const char* user, const char* pass) {
-
-  Serial.print("Conectando a Rede GRPS ... ");
-  while (!LGPRS.attachGPRS(apn, user, pass))
-  {
+  Serial.print("Buscando Rede GRPS ... ");
+  while (!LGPRS.attachGPRS(apn, user, pass)) {
     delay(500);
     Serial.print(".");
   }  
-  Serial.println("[Conectado]");
+  Serial.println("[OK]");
 }
 
 bool testGPRS(char host[], int port) {
   client.setTimeout(60000);
   if (client.connect(host, port)) {
-    Serial.println("Conectando ao Host :: " + String(host) + ":" + String(port) + "... [Conectado]");
+    Serial.println("Conectando ao Host [GPRS] :: " + String(host) + ":" + String(port) + "... [Conectado]");
     return true;
   } else {
     dataLogError("Falha na Conexão :: " + String(host) + ":" + String(port));  
@@ -23,7 +20,7 @@ bool testGPRS(char host[], int port) {
 
 bool connGPRS(char host[], int port) {  
   if (client.connect(host, port)) {
-    log("Conectando ao Host :: " + String(host) + ":" + String(port) + "... [Conectado]", true);
+    log("Conectando ao Host [GPRS] :: " + String(host) + ":" + String(port) + "... [Conectado]", true);
     return true;
   } else {  
     dataLogError("Falha na Conexão :: " + String(host) + ":" + String(port));   
@@ -32,30 +29,10 @@ bool connGPRS(char host[], int port) {
 }
 
 bool sendRequest(char* host, String uri) {
-
     log("Processando chamada REST [URI]: " + uri, true);
 
     client.print("GET ");    
     client.print(uri);
-    client.println(" HTTP/1.1");
-    client.print("Host: ");
-    client.println(host);
-    client.println("Connection: close");
-    
-    if (client.println() == 0) {
-        dataLogError("Falha na Requisição.");
-        client.stop();        
-        return false;
-    }    
-    return true;
-}
-
-bool sendRequestURI(char* host, char* uri) {
-
-    log("Processando chamada REST [URI]: " + String(uri), true);
-
-    client.print("GET ");    
-    client.print(String(uri));
     client.println(" HTTP/1.1");
     client.print("Host: ");
     client.println(host);
@@ -77,25 +54,21 @@ bool skipResponseHeaders() {
     if (strcmp(status, "HTTP/1.1 200 OK") != 0) {
         dataLogError("Response [ERRO]: " + String(status));    
         return false;
-    }
-    
+    }    
     char endOfHeaders[] = "\r\n\r\n";
     if (!client.find(endOfHeaders)) {
         dataLogError("Response [REST] Inválida.");        
         return false;
-    }
-    
+    }    
     char endOfHeaders2[] = "\n";
     client.find(endOfHeaders2);
     Serial.println("[OK].");
     return true;
 }
 
-bool checkReponse() {
-  
+bool checkReponse() {  
   log("Response: ", false);
-  while (client.connected() || client.available())
-  {
+  while (client.connected() || client.available()) {
     if (client.available()) {
       String line = client.readStringUntil('\n');
       String res = line.substring(0,41);

@@ -1,10 +1,10 @@
 #include <Wire.h>
-//#include <LFlash.h>
-#include <LSD.h>
+#include <LFlash.h>
+//#include <LSD.h>
 #include <LStorage.h>
 
-//#define Drv LFlash
-#define Drv LSD
+#define Drv LFlash
+//#define Drv LSD
 
 bool initSD() {
   if(!Drv.begin()) {
@@ -56,6 +56,39 @@ void dataLogError(String error) {
     } else {
       log("Erro ao abrir " + fileName , true);
     }
+}
+
+void writeFile(char* fileName, String content) {
+
+  LFile dataFile = Drv.open(fileName, FILE_WRITE);
+  if(dataFile) { 
+    log("Gravando Arquivo ... " + String(fileName), true);
+    dataFile.println(content);
+    dataFile.close();
+    log("Pronto!", true);
+  } else {
+    log("Erro ao abrir Arquivo ... " + String(fileName), true);
+  }
+}
+
+String readFile(char* fileName) {
+  
+  LFile dataFile = Drv.open(fileName);
+  String content = "";
+
+  if(dataFile) {
+    dataFile.seek(0);
+    log("Lendo Arquivo ... " + String(fileName), true);
+    while (dataFile.available()) {
+      content += dataFile.read();
+    }
+    dataFile.close();
+    log("Arquivo Lido ..." + String(fileName), true);
+    return content;
+  } else {
+    log("Erro ao abrir Arquivo ... " + String(fileName), true);
+    return "";
+  }
 }
 
 void log(String p, boolean n ) {
