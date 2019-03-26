@@ -14,8 +14,18 @@ void setDatetimeOnline() {
   Serial.println("---------------------------------------------");
 }
 
-void parseDateResult(String response) {
+void setDatetimeOnlineWiFi() {  
+  Serial.println("Inicializando Data");
+  if(sendRequestUriWiFi(host, String(uriDate))) {
+    if(skipResponseHeadersWiFi()) {
+      checkReponseDateWiFi();
+    }
+  }
+  Serial.println("Data Atualizada");  
+  Serial.println("---------------------------------------------");
+}
 
+void parseDateResult(String response) {
   Serial.print("Parsing Data - ");
   const size_t capacity = JSON_OBJECT_SIZE(9);
   DynamicJsonBuffer jsonBuffer(capacity);        
@@ -23,8 +33,7 @@ void parseDateResult(String response) {
 
   if (!root.success()) {
     Serial.println("JSON com Erro!");    
-  } else {
-    
+  } else {    
     datetimeInfo now;
     now.year = String(root["year"].as<char*>()).toInt();
     now.mon = String(root["mon"].as<char*>()).toInt();
@@ -38,14 +47,26 @@ void parseDateResult(String response) {
   }  
 }
 
-
-void checkReponseDate() {
-  
+void checkReponseDate() {  
   Serial.print("Response Date: ");
-  while (client.connected() || client.available())
-  {
+  while (client.connected() || client.available()) {
     if (client.available()) {
       String line = client.readStringUntil('\n');
+      String res = line.substring(0,150);
+      Serial.println(res);
+      
+      parseDateResult(res);
+      break;
+    }
+  }   
+}
+
+void checkReponseDateWiFi() {  
+  Serial.print("Response Date: ");
+  while (clientWiFi.connected() || clientWiFi.available())
+  {
+    if (clientWiFi.available()) {
+      String line = clientWiFi.readStringUntil('\n');
       String res = line.substring(0,150);
       Serial.println(res);
       
@@ -98,8 +119,7 @@ String getTime() {
 }
 
 String getDateInt() {
-  LDateTime.getTime(&t);
-  
+  LDateTime.getTime(&t);  
   String str = "";  
   str += t.year; 
   if(t.mon < 10) str += "0";
@@ -110,7 +130,6 @@ String getDateInt() {
 }
 
 void setDatetime() {
-
   datetimeInfo now;
   now.year = 2019;
   now.mon = 2;

@@ -1,10 +1,10 @@
 #include <Wire.h>
-//#include <LFlash.h>
-#include <LSD.h>
+#include <LFlash.h>
+//#include <LSD.h>
 #include <LStorage.h>
 
-//#define Drv LFlash
-#define Drv LSD
+#define Drv LFlash
+//#define Drv LSD
 
 bool initSD() {
   if(!Drv.begin()) {
