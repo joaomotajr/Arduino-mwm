@@ -11,7 +11,8 @@ bool initSD() {
     dataLogError("Erro na Inicialiação do SD Card.");
     return true;
   } else {
-    Serial.println("SD Card (Iniciado).");
+    Serial.println("---------------------------------------------");
+    Serial.println("SD Card [Iniciado].");
     return true;
   }
 }
@@ -74,16 +75,22 @@ void writeFile(char* fileName, String content) {
 String readFile(char fileName[]) {
   
   LFile dataFile = Drv.open(fileName);
-  String content = "";
+  String content;
+  char dtaget[800];
+  int len = 0;
 
   if(dataFile) {
     dataFile.seek(0);
     log("Lendo Arquivo ... " + String(fileName), true);
     while (dataFile.available()) {
-      content += dataFile.read();
+        int v = dataFile.read();
+        if(v < 0) break;
+
+        dtaget[len++] = (char)v;
+        content += String((char)v);
     }
     dataFile.close();
-    log("Arquivo Lido ..." + String(fileName), true);
+    log("Arquivo Lido ... " + String(fileName), true);
     return content;
   } else {
     log("Erro ao abrir Arquivo ... " + String(fileName), true);

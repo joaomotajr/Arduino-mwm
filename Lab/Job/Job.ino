@@ -8,7 +8,7 @@
 #define WIFI_PASSWORD "P@lmeiras"
 #define WIFI_AUTH LWIFI_WPA
 
-char connType[] = "WIFI"; 
+char connType[] = "GPRS"; 
 char apn[] = "claro.com.br";
 char user[] = "claro";
 char pass[] = "claro";
@@ -35,32 +35,14 @@ void setup() {
 
     initSD();
     initADC();
-    
-    if(connType == "WIFI") {
-      Serial.println("Transmissão WiFi Selecionada.");
-      attachWiFi();
-      if(testClientWiFi(host, port)) {
-        initFeedback();
-        setDatetimeOnlineWiFi();      
-      }
-    } else if (connType == "GPRS") {
-      Serial.println("Transmissão GPRS Selecionada.");      
-      attachGPRS(apn, user, pass);
-      if(testGPRS(host, port)) {
-        initFeedback();
-        setDatetimeOnline();
-        initSMS();
-      }     
-    } else {
-      Serial.println("Nenhuma Transmissão Configurada");
-    }    
+    inicializa();            
 }
 
 void loop() {
 
   float flow = processADC();
 
-  if(connType == "WIFI") {
+  if(String(connType) == "WIFI") {
     if(logLevel >= 2 && connClientWiFi(host, port)) {
       String dataReaded = String(idDevice) + "/" + String(flow*100000).c_str();
       if(sendRequestUriWiFi(host, String(uri) + String(dataReaded))) {
@@ -70,19 +52,39 @@ void loop() {
       }
       disconnectWiFi();
     }
-  } else if (connType == "GPRS") {
+  } else if (String(connType) == "GPRS") {
     if(logLevel >= 2 && connGPRS(host, port)) {
       String dataReaded = String(idDevice) + "/" + String(flow*100000).c_str();
       if(sendRequest(host, String(uri) + String(dataReaded))) {
         if(logLevel >= 3 && skipResponseHeaders()) {
           checkReponse();
         }
-      }
-      readSMS("OK OK");
+      }       
       disconnect();
     }
   }   
   delay(delayTime);     
+}
+
+void inicializa() {
+  if(String(connType) == "WIFI") {
+      Serial.println("Transmissão WiFi Selecionada.");
+      attachWiFi();
+      if(testClientWiFi(host, port)) {
+        initFeedback();
+        setDatetimeOnlineWiFi();      
+      }
+    } else if (String(connType) == "GPRS") {
+      Serial.println("Transmissão GPRS Selecionada.");      
+      attachGPRS(apn, user, pass);
+      if(testGPRS(host, port)) {
+        initFeedback();
+        setDatetimeOnline();
+        initSMS();
+      }     
+    } else {
+      Serial.println("Nenhuma Transmissão Configurada");
+    }
 }
 
 void initFeedback() { 
@@ -93,4 +95,4 @@ void initFeedback() {
   warningLight(2);  
 }
 
-void(* resetFunc) (void) = 0;
+

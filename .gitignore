@@ -10,3 +10,9 @@ Lab/WorkGprs/\.vscode/settings\.json
 *.rar
 
 *.bin
+
+*.sqlite
+
+Lab/Job/\.vs/Job/v15/
+
+Lab/Job/\.vs/__vm/\.vsarduino\.h

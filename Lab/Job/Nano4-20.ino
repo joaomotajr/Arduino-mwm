@@ -4,13 +4,13 @@ Nanoshield_ADC adc;
 int channel = 0;
 
 void initADC() {
-
+  Serial.println("---------------------------------------------");
   Serial.print("Read 4-20mA sensor (channel A");
   Serial.print(channel);
-  Serial.println(") [Iniciado]");
-  adc.begin();
- 
+  Serial.println(") [Aberto]");
+  adc.begin(); 
   adc.setGain(GAIN_TWO);
+  Serial.println("Sensor ADC 4~20 [Iniciado]");
 }
 
 float processADC() {  

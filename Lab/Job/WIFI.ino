@@ -1,5 +1,5 @@
 bool attachWiFi() {
-  LWiFi.begin();
+  LWiFi.begin();  
   Serial.println("Conectando WiFi ...");
   int count = 0;
   while (0 == LWiFi.connect(WIFI_AP, LWiFiLoginInfo(WIFI_AUTH, WIFI_PASSWORD))) {
@@ -14,7 +14,9 @@ bool attachWiFi() {
   Serial.println("Conectado a ..." + String(WIFI_AP));
   return true;
 }
+
 bool testClientWiFi(char host[], int port) {
+  Serial.println("---------------------------------------------");
   Serial.print("Conectando ao Host [WiFi] :: " + String(host) + ":" + String(port) + ".. ");
   int count = 0;
   while (0 == clientWiFi.connect(host, port)) {
@@ -93,7 +95,7 @@ bool checkReponseWiFi() {
 //    Serial.println(res);
 
       String respostaSistema = parseResult(res); 
-      if (respostaSistema == "SUCCESS") {
+      if (String(respostaSistema) == "SUCCESS") {
         log("Sistema Atualizado: " + respostaSistema, true);
       } else {
         dataLogError("Sistema Não Atualizado: " + respostaSistema);

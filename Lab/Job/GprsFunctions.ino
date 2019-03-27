@@ -66,26 +66,6 @@ bool skipResponseHeaders() {
     return true;
 }
 
-bool checkReponse() {  
-  log("Response: ", false);
-  while (client.connected() || client.available()) {
-    if (client.available()) {
-      String line = client.readStringUntil('\n');
-      String res = line.substring(0,41);
-//    Serial.println(res);
-
-      String respostaSistema = parseResult(res); 
-      if (respostaSistema == "SUCCESS") {
-        log("Sistema Atualizado: " + respostaSistema, true);
-      } else {
-        dataLogError("Sistema Não Atualizado: " + respostaSistema);
-      }        
-      break;
-    }
-  }    
-   return true;
-}
-
 String parseResult(String response) {
 
   const size_t capacity = JSON_OBJECT_SIZE(2);
@@ -97,20 +77,6 @@ String parseResult(String response) {
     return "ERRO";
   } else {
     return String(root["type"].as<char*>());
-  }  
-}
-
-void getConfig() {
-  char fileName[] = "config.json";
-  String response = readFile(fileName);
-  const size_t capacity = JSON_ARRAY_SIZE(4) + 8*JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(5);
-  DynamicJsonBuffer jsonBuffer(capacity);        
-  JsonObject& root = jsonBuffer.parseObject(response);
-
-  if (!root.success()) {
-    dataLogError("JSON com Erro!");        
-  } else {
-    connType = root["SYSTEM"]["connType"].as<char*>();
   }  
 }
 

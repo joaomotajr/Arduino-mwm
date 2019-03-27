@@ -4,25 +4,25 @@ datetimeInfo t;
 unsigned int rtc;
 
 void setDatetimeOnline() {  
-  Serial.println("Inicializando Data");
+  Serial.println("---------------------------------------------");
+  Serial.println("Inicializando Data, Aguarde ...");
   if(sendRequest(host, String(uriDate))) {
     if(skipResponseHeaders()) {
       checkReponseDate();
     }
   }
-  Serial.println("Data Atualizada");  
-  Serial.println("---------------------------------------------");
+  Serial.println("Data Atualizada");   
 }
 
 void setDatetimeOnlineWiFi() {  
+  Serial.println("---------------------------------------------");
   Serial.println("Inicializando Data");
   if(sendRequestUriWiFi(host, String(uriDate))) {
     if(skipResponseHeadersWiFi()) {
       checkReponseDateWiFi();
     }
   }
-  Serial.println("Data Atualizada");  
-  Serial.println("---------------------------------------------");
+  Serial.println("Data Atualizada"); 
 }
 
 void parseDateResult(String response) {

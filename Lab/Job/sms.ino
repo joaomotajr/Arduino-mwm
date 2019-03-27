@@ -3,18 +3,18 @@
 
 bool initSMS() {  
   int count = 0;
-  Serial.println("Inicializando GSM para SMS");
+  Serial.println("---------------------------------------------");
+  Serial.print("Inicializando GSM para SMS ....");
   while (!LSMS.ready()) {
       delay(1000);
       Serial.println(".");
       count++;
       if(count > 10) {
-          Serial.println("GSM NãoIniciado para SMS");
+          Serial.println("FALHA!");
            return false;
       }  
   }
-  Serial.println("GSM pronto pra enviar SMS");
-  Serial.println("---------------------------------------");
+  Serial.println("PRONTO!");  
   return true;
 }
 
@@ -52,7 +52,7 @@ bool readSMS(String resp) {
         Serial.println();
         LSMS.flush(); 
 
-        sendSMS(resp, p_num);
+        respondeSeNroValido(p_num, resp);
         
         if((dtaget[0] == 'O' && dtaget[1] == 'N') || (dtaget[0] == 'o' && dtaget[1] == 'n')) {
             ledOn;
@@ -81,7 +81,7 @@ String getSMS(String resp) {
             content += String((char)v);
         }
         LSMS.flush(); 
-        sendSMS(resp, p_num);
+        respondeSeNroValido(p_num, resp);
         
         if((dtaget[0] == 'O' && dtaget[1] == 'N') || (dtaget[0] == 'o' && dtaget[1] == 'n')) {
             ledOn;
@@ -90,6 +90,12 @@ String getSMS(String resp) {
         }
         return content;
     }
+}
+
+void respondeSeNroValido(char p_num[], String resp) {
+  String nro = String(p_num);
+  if(nro.length() > 6)
+    sendSMS(resp, p_num);
 }
 
 
