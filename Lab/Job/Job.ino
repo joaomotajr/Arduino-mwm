@@ -35,7 +35,7 @@ void setup() {
 }
 
 void loop() {
-
+  
   float flow = processADC();
 
   if(String(connType) == "WIFI") {
@@ -55,7 +55,8 @@ void loop() {
         if(logLevel >= 3 && skipResponseHeaders()) {
           checkReponse();
         }
-      }       
+      }
+      readSMS("Alive");      
       disconnect();
     }
   }   
