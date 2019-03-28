@@ -1,29 +1,77 @@
+char apn4[] = "gprs.oi.com.br";
+char user4[] = "oi";
+char pass4[] = "oi";
+
+char apn3[] = "timbrasil.com.br";
+char user3[] = "tim";
+char pass3[] = "tim";
+
+char apn2[] = "claro.com.br"; 
+char user2[] = "claro"; 
+char pass2[] = "claro"; 
+ 
+char apn1[] = "zap.vivo.com.br"; 
+char user1[] = "vivo"; 
+char pass1[] = "vivo"; 
+
+bool findGPRS() { 
+     
+  attachGPRS(apn1, user1, pass1); 
+  if(testGPRS(host, port)) { 
+    return true; 
+  }
+ 
+  attachGPRS(apn2, user2, pass2); 
+  if(testGPRS(host, port)) {     
+    return true; 
+  }
+
+  attachGPRS(apn3, user3, pass3); 
+  if(testGPRS(host, port)) {     
+    return true; 
+  }
+
+  attachGPRS(apn4, user4, pass4); 
+  if(testGPRS(host, port)) {     
+    return true; 
+  }
+ 
+  if(logLevel > 0) 
+    logLevel = 1; 
+ 
+  Serial.println("Nenhuma conexão GRPS encontrada."); 
+  return false; 
+}
+
 void attachGPRS(char apn[], const char user[], const char pass[]) {
-  Serial.print("Buscando Rede GRPS ... " + String(apn));
+  Serial.print("Conectando a Rede GRPS: " + String(apn));
   while (!LGPRS.attachGPRS(apn, user, pass)) {
     delay(500);
     Serial.print(".");
   }  
-  Serial.println("[OK]");
+  Serial.println(" [OK]");
 }
 
 bool testGPRS(char host[], int port) {
   client.setTimeout(60000);
+  Serial.print("Testando Conexão [GPRS] Host: " + String(host) + ":" + String(port) + " ");
   if (client.connect(host, port)) {
-    Serial.println("Conectando ao Host [GPRS] :: " + String(host) + ":" + String(port) + "... [Conectado]");
+    Serial.println("[SUCESSO]");
     return true;
   } else {
-    dataLogError("Falha na Conexão :: " + String(host) + ":" + String(port));  
+    Serial.println("[FALHA]");  
     return false;
   }
 }
 
-bool connGPRS(char host[], int port) {  
+bool connGPRS(char host[], int port) {
+  log("Conectando [GPRS] Host: " + String(host) + ":" + String(port) + " ", false); 
   if (client.connect(host, port)) {
-    log("Conectando ao Host [GPRS] :: " + String(host) + ":" + String(port) + "... [Conectado]", true);
+    Serial.println("[SUCESSO]");
     return true;
   } else {  
-    dataLogError("Falha na Conexão :: " + String(host) + ":" + String(port));   
+    Serial.println("[FALHA]");
+    dataLogError("Falha Conexão [GPRS] Host: " + String(host) + ":" + String(port));   
     return false;
   }
 }
@@ -78,6 +126,26 @@ String parseResult(String response) {
   } else {
     return String(root["type"].as<char*>());
   }  
+}
+
+bool checkReponse() {  
+  log("Response: ", false);
+  while (client.connected() || client.available()) {
+    if (client.available()) {
+      String line = client.readStringUntil('\n');
+      String res = line.substring(0,41);
+//    Serial.println(res);
+
+      String respostaSistema = parseResult(res); 
+      if (String(respostaSistema) == "SUCCESS") {
+        log("Sistema Atualizado: " + respostaSistema, true);
+      } else {
+        dataLogError("Sistema Não Atualizado: " + respostaSistema);
+      }        
+      break;
+    }
+  }    
+   return true;
 }
 
 void disconnect() {

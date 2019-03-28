@@ -9,10 +9,6 @@
 #define WIFI_AUTH LWIFI_WPA
 
 char connType[] = "GPRS"; 
-char apn[] = "claro.com.br";
-char user[] = "claro";
-char pass[] = "claro";
-
 char host[] = "177.144.134.145";
 char uri[] = "/api/historic/SaveByPositionIOT/";
 char uriDate[] = "/api/util/time/";
@@ -67,29 +63,28 @@ void loop() {
 }
 
 void inicializa() {
+  Serial.println("---------------------------------------------");
   if(String(connType) == "WIFI") {
-      Serial.println("Transmissão WiFi Selecionada.");
-      attachWiFi();
-      if(testClientWiFi(host, port)) {
-        initFeedback();
-        setDatetimeOnlineWiFi();      
-      }
-    } else if (String(connType) == "GPRS") {
-      Serial.println("Transmissão GPRS Selecionada.");      
-      attachGPRS(apn, user, pass);
-      if(testGPRS(host, port)) {
-        initFeedback();
-        setDatetimeOnline();
-        initSMS();
-      }     
-    } else {
-      Serial.println("Nenhuma Transmissão Configurada");
+    Serial.println("Transmissão WiFi Selecionada.");
+    attachWiFi();
+    if(testClientWiFi(host, port)) {        
+      setDatetimeOnlineWiFi();      
     }
+  } else if (String(connType) == "GPRS") {
+    Serial.println("Transmissão GPRS Selecionada.");      
+    if(findGPRS()) {         
+      setDatetimeOnline();
+      initSMS();
+    }     
+  } else {
+    Serial.println("Nenhuma Transmissão Configurada");
+  }
+  initFeedback();
 }
 
 void initFeedback() { 
   Serial.println("---------------------------------------------");
-  Serial.println("Processamento Iniciado. ");
+  Serial.println("Iniciando Processamento...");
   Serial.println("---------------------------------------------");
   Serial.println("");
   warningLight(2);  
