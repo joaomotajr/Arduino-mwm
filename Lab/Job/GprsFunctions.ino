@@ -16,26 +16,30 @@ char pass1[] = "vivo";
 
 bool findGPRS() { 
      
-  attachGPRS(apn1, user1, pass1); 
-  if(testGPRS(host, port)) { 
-    return true; 
+  if(attachGPRS(apn1, user1, pass1)) { 
+    if(testGPRS(host, port)) { 
+      return true; 
+    }
   }
  
-  attachGPRS(apn2, user2, pass2); 
-  if(testGPRS(host, port)) {     
-    return true; 
+  if(attachGPRS(apn2, user2, pass2)) {
+    if(testGPRS(host, port)) {     
+      return true; 
+    }
   }
-
-  attachGPRS(apn3, user3, pass3); 
-  if(testGPRS(host, port)) {     
-    return true; 
+  
+  if(attachGPRS(apn3, user3, pass3)) {
+    if(testGPRS(host, port)) {     
+      return true; 
+    }
   }
-
-  attachGPRS(apn4, user4, pass4); 
-  if(testGPRS(host, port)) {     
-    return true; 
+  
+  if(attachGPRS(apn4, user4, pass4)) {
+    if(testGPRS(host, port)) {     
+      return true; 
+    }
   }
- 
+  
   if(logLevel > 0) 
     logLevel = 1; 
  
@@ -43,13 +47,20 @@ bool findGPRS() {
   return false; 
 }
 
-void attachGPRS(char apn[], const char user[], const char pass[]) {
+bool attachGPRS(char apn[], const char user[], const char pass[]) {
   Serial.print("Conectando a Rede GRPS: " + String(apn));
+  int count = 0;
   while (!LGPRS.attachGPRS(apn, user, pass)) {
     delay(500);
     Serial.print(".");
+    count++;
+    if(count>10) {
+      Serial.println("Sem Sinal GPRS da operadora " + String(apn));
+      return false;
+    }
   }  
   Serial.println(" [OK]");
+  return true;
 }
 
 bool testGPRS(char host[], int port) {
