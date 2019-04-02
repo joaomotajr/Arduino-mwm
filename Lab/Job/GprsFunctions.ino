@@ -54,7 +54,7 @@ bool attachGPRS(char apn[], const char user[], const char pass[]) {
     delay(500);
     Serial.print(".");
     count++;
-    if(count>10) {
+    if(count>60) {
       Serial.println("Sem Sinal GPRS da operadora " + String(apn));
       return false;
     }

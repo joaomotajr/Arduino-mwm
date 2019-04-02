@@ -1,70 +1,94 @@
-#include "Nanoshield_EEPROM.h"
-#include "Nanoshield_RTC.h"
-#include "Nanoshield_RTC.h"
 
+String getMinDatetime() {
+  
+  rtc.read();
+  String str = "";  
+  if(rtc.getDay() < 10) str += "0";
+  str += rtc.getDay();   
+  str += "/";
+  if(rtc.getMonth() < 10) str += "0";
+  str += rtc.getMonth();
+  str += " ";
+  
+  if(rtc.getHours() < 10) str += "0";
+  str += rtc.getHours();
+  str += ":";
+  if(rtc.getMinutes() < 10) str += "0";
+  str += rtc.getMinutes();
+  str += ":";
+  if(rtc.getSeconds() < 10) str += "0";
+  str += rtc.getSeconds();
+  return str;     
+}
 
-datetimeInfo t;
-Nanoshield_RTC rtc;
 
 String getDatetime() {
 
-  LDateTime.getTime(&t);
-  LDateTime.getRtc(&rtc);
-
   String str = "";  
-  if(t.day < 10) str += "0";
-  str += t.day;   
+  if(rtc.getDay() < 10) str += "0";
+  str += rtc.getDay();   
   str += "/";
-  if(t.mon < 10) str += "0";
-  str += t.mon;
+  if(rtc.getMonth() < 10) str += "0";
+  str += rtc.getMonth();
   str += "/";
-  str += t.year;
+  str += rtc.getYear();
   str += " ";
-  if(t.hour < 10) str += "0";
-  str += t.hour;
+  if(rtc.getHours() < 10) str += "0";
+  str += rtc.getHours();
   str += ":";
-  if(t.min < 10) str += "0";
-  str += t.min;
+  if(rtc.getMinutes() < 10) str += "0";
+  str += rtc.getMinutes();
   str += ":";
-  if(t.sec < 10) str += "0";
-  str += t.sec;
+  if(rtc.getSeconds() < 10) str += "0";
+  str += rtc.getSeconds();
   return str;     
 }
 
 String getTime() {
 
-  LDateTime.getTime(&t);
-  LDateTime.getRtc(&rtc);
-
   String str = "";  
-  if(t.hour < 10) str += "0";  
-  str += t.hour;
+  if(rtc.getHours() < 10) str += "0";  
+  str += rtc.getHours();
   str += ":";
-  if(t.min < 10) str += "0";
-  str += t.min;
+  if(rtc.getMinutes() < 10) str += "0";
+  str += rtc.getMinutes();
   str += ":";
-  if(t.sec < 10) str += "0";
-  str += t.sec;
+  if(rtc.getSeconds() < 10) str += "0";
+  str += rtc.getSeconds();
   return str;     
 }
 
 String getDateInt() {
-  LDateTime.getTime(&t);  
+
   String str = "";  
-  str += t.year; 
-  if(t.mon < 10) str += "0";
-  str += t.mon;
-  if(t.day < 10) str += "0";
-  str += t.day;
+  str += rtc.getYear(); 
+  if(rtc.getMonth() < 10) str += "0";
+  str += rtc.getMonth();
+  if(rtc.getDay() < 10) str += "0";
+  str += rtc.getDay();
   return str;
 }
 
 void setDatetime() {
-  datetimeInfo now;
-  now.year = 2019;
-  now.mon = 2;
-  now.day = 27;
-  now.hour = 22;
-  now.min = 23;
-  LDateTime.setTime(&now);
+  
+  Serial.println("-------------------------");
+  Serial.println(" Nanoshield Serial Clock");
+  Serial.println("-------------------------");
+  Serial.println("");
+
+  // Initialize RTC
+  if (!rtc.begin()) {
+    Serial.println("Failed starting RTC");
+    while(true);
+  };
+
+  Serial.print("Current time:\n");
+  
+  // Set date and time
+  rtc.writeYear(2018);
+  rtc.writeMonth(03);
+  rtc.writeDay(21);
+  rtc.writeHours(14);
+  rtc.writeMinutes(40);
+  rtc.writeSeconds(00);
 }

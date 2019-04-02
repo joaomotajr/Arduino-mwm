@@ -13,7 +13,7 @@ void initADC() {
   Serial.println("Sensor ADC 4~20 [Iniciado]");
 }
 
-float processADC() {  
+float processADC() {   
   float mA = adc.read4to20mA(channel);
   float mA_ = (mA*100)/100;
   
@@ -23,10 +23,14 @@ float processADC() {
     
   float flow =  lowValue + (highValue - lowValue) * (mA_ - 4) / 16;  
   log("Medição -> 4~20: " + String(mA_) + " FLOW: " + String(flow), true);
+  
+  lcd.setCursor(0, 0);
+  lcd.print(getMinDatetime());
+  lcd.setCursor(0, 1);
+  lcd.print(" FLOW: " + String(flow));
 
   if(logLevel >= 1) {
-    dataLog(String(flow));
-  }
-  
+    dataLog(String(mA_) + ";" +String(flow));
+  }  
   return flow;
 }

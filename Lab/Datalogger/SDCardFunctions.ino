@@ -1,13 +1,8 @@
-#include <Wire.h>
-#include <LFlash.h>
-//#include <LSD.h>
-#include <LStorage.h>
-
-#define Drv LFlash
-//#define Drv LSD
+#include <SD.h>
+const int chipSelect = 4;
 
 bool initSD() {
-  if(!Drv.begin()) {
+  if(!SD.begin(chipSelect)) {
     dataLogError("Erro na Inicialiação do SD Card.");
     return true;
   } else {
@@ -18,8 +13,10 @@ bool initSD() {
 }
 
 void dataLog(String dataReaded) {  
-    char file[17] = "";
-    String fileName = getDateInt() + "_Sensor.log";
+    
+    String fileName = String(getDateInt()) + String(".log");
+    int fileNameLen = fileName.length() +1;
+    char file[fileNameLen];
 
     Serial.print(getDatetime());
     Serial.print(" Arquivo: " + fileName);
@@ -28,12 +25,12 @@ void dataLog(String dataReaded) {
     Serial.print(" | ");
     Serial.println(dataReaded);
 
-    fileName.toCharArray(file, 20);
+    fileName.toCharArray(file, fileNameLen);
     
-    LFile dataFile = Drv.open(file, FILE_WRITE);
+    File dataFile = SD.open(fileName, FILE_WRITE);
     if (dataFile) {
       dataFile.print(getTime());
-      dataFile.print("\t");
+      dataFile.print(";");
       dataFile.println(dataReaded);
       dataFile.close();    
     } else {
@@ -48,7 +45,7 @@ void dataLogError(String error) {
     String fileName = "LogErro.log";
     fileName.toCharArray(file, 14);
     
-    LFile dataFile = Drv.open(file, FILE_WRITE);
+    File dataFile = SD.open(file, FILE_WRITE);
     if (dataFile) {
       dataFile.print(getDatetime());
       dataFile.print(" ");
@@ -61,7 +58,7 @@ void dataLogError(String error) {
 
 void writeFile(char* fileName, String content) {
 
-  LFile dataFile = Drv.open(fileName, FILE_WRITE);
+  File dataFile = SD.open(fileName, FILE_WRITE);
   if(dataFile) { 
     log("Gravando Arquivo ... " + String(fileName), true);
     dataFile.println(content);
@@ -74,7 +71,7 @@ void writeFile(char* fileName, String content) {
 
 String readFile(char fileName[]) {
   
-  LFile dataFile = Drv.open(fileName);
+  File dataFile = SD.open(fileName);
   String content;
   char dtaget[800];
   int len = 0;
