@@ -19,6 +19,7 @@ float highValue = 12;
 float lowValue = 0;
 int logLevel = 3;   // 3 : Cartão, Envio e Check Response | 2 : Cartão e Envio | 1 : Cartão  | 0 : Só Leitura
 int delayTime = 5000;
+String measureType = "NIVEL";
 
 LGPRSClient client;
 LWiFiClient clientWiFi;
@@ -36,11 +37,11 @@ void setup() {
 
 void loop() {
   
-  float flow = processADC();
+  float value = processADC();
 
   if(String(connType) == "WIFI") {
     if(logLevel >= 2 && connClientWiFi(host, port)) {
-      String dataReaded = String(idDevice) + "/" + String(flow*100000).c_str();
+      String dataReaded = String(idDevice) + "/" + String(value*100000).c_str();
       if(sendRequestUriWiFi(host, String(uri) + String(dataReaded))) {
         if(logLevel >= 3 && skipResponseHeadersWiFi()) {
           checkReponseWiFi();
@@ -50,7 +51,7 @@ void loop() {
     }
   } else if (String(connType) == "GPRS") {
     if(logLevel >= 2 && connGPRS(host, port)) {
-      String dataReaded = String(idDevice) + "/" + String(flow*100000).c_str();
+      String dataReaded = String(idDevice) + "/" + String(value*100000).c_str();
       if(sendRequest(host, String(uri) + String(dataReaded))) {
         if(logLevel >= 3 && skipResponseHeaders()) {
           checkReponse();
@@ -90,5 +91,3 @@ void initFeedback() {
   Serial.println("");
   warningLight(2);  
 }
-
-

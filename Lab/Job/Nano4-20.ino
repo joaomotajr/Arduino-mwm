@@ -20,13 +20,25 @@ float processADC() {
   if(mA_ >= 3.97 && mA_ <= 4) {
     mA_ = 4.0;
   }
-    
-  float flow =  lowValue + (highValue - lowValue) * (mA_ - 4) / 16;  
-  log("Medição -> 4~20: " + String(mA_) + " FLOW: " + String(flow), true);
 
-  if(logLevel >= 1) {
-    dataLog(String(flow));
+  if (measureType=="NIVEL")  {
+    float nivel = 4 + (16 * ((mA_  – lowValue) / (highValue – lowValue)))
+    log("Medição -> 4~20: " + String(mA_) + " NIVEL: " + String(nivel), true);
+
+    if(logLevel >= 1) {
+      dataLog(String(nivel));
+    }
+    return nivel;
   }
-  
-  return flow;
+  else if(measureType=="FLOW") {
+    float flow =  (lowValue + (highValue - lowValue) * (mA_ - 4) / 16);
+    log("Medição -> 4~20: " + String(mA_) + " FLOW: " + String(flow), true);
+
+    if(logLevel >= 1) {
+      dataLog(String(flow));
+    }
+    return flow;
+  }
+
+  return null;
 }
