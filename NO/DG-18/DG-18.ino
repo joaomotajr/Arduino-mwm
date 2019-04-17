@@ -64,10 +64,10 @@ void loop() {
   //Definir minimo de variação para envio imediato, ou espera
   if (variacao > variacao_maxima)
   {
-    delay(800); // mudar para 3000
+    delay(3000); // mudar para 3000
   }
   else {
-    delay(3000); // mudar para 10000
+    delay(10000); // mudar para 10000
   }
 
   sensor_value_fx = val_M;

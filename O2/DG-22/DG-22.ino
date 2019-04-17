@@ -45,7 +45,7 @@ void loop() {
     //Definir minimo de variação para envio imediato, ou espera 
     if (variacao > variacao_maxima)  
     {
-      delay(500);      
+      delay(3000);      
     } 
     else {   
       delay(10000);
