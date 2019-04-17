@@ -22,15 +22,14 @@ float processADC() {
   }
 
   if (measureType=="NIVEL")  {
-    float nivel = 4 + (16 * ((mA_  – lowValue) / (highValue – lowValue)))
+    float nivel =  (lowValue + (highValue - lowValue) * (mA_ - 4) / 16);
     log("Medição -> 4~20: " + String(mA_) + " NIVEL: " + String(nivel), true);
 
     if(logLevel >= 1) {
       dataLog(String(nivel));
     }
     return nivel;
-  }
-  else if(measureType=="FLOW") {
+  } else if(measureType=="FLOW") {
     float flow =  (lowValue + (highValue - lowValue) * (mA_ - 4) / 16);
     log("Medição -> 4~20: " + String(mA_) + " FLOW: " + String(flow), true);
 
@@ -38,7 +37,15 @@ float processADC() {
       dataLog(String(flow));
     }
     return flow;
-  }
+  } else {
+    float value =  (lowValue + (highValue - lowValue) * (mA_ - 4) / 16);
+    log("Medição -> 4~20: " + String(mA_) + " FLOW: " + String(value), true);
 
-  return null;
+    if(logLevel >= 1) {
+      dataLog(String(value));
+    }
+    return value;
+    
+  } 
+
 }
