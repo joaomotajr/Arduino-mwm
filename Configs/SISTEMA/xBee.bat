@@ -1,0 +1,1 @@
+java -Dlog4j.configuration=file:///%CD%\cfg\log4j.properties -jar xBeeMqttEneeyes-0.0.1-SNAPSHOT-jar-with-dependencies.jar mqtt 177.144.134.145 COM3

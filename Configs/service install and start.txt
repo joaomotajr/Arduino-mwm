@@ -1,0 +1,25 @@
+--command line
+nssm install ene-receiver "C:\Program Files\Java\jdk1.8.0_191\bin\java.exe" "-Dlog4j.configuration=file:///%CD%\cfg\log4j.properties -jar C:\dashboard\sistema\xBeeMqttEneeyes-0.0.1-SNAPSHOT-jar-with-dependencies.jar mqtt 177.144.134.145 COM4"
+
+
+--instalar serviço no windows
+-- nssm no mesmo diretorio
+-- Arquvio start.Bat
+
+@ECHO OFF
+REM start.bat  code
+java -jar -Dlog4j.configuration=file:///%CD%\cfg\log4j.properties xBeeMqttEneeyes-0.0.1-SNAPSHOT-jar-with-dependencies.jar %1 %2 %3
+
+nssm install ene-receiver
+
+|-----------------------------------------------
+| path:: C:\dashboard\sistema\start.bat
+| args:: mqtt 177.144.134.145 COM4
+| startup directory:: C:\dashboard\sistema
+| Details:: Ene xBee Data-Receiver
+
+--remover
+nssm remove ene-receiver
+
+--editar parametros
+nssm edit ene-receiver
